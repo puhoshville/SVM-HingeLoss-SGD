@@ -98,12 +98,13 @@ def run(batch_size, output = True):
     model = SVM()
     model.fit(X_train, y_train, X_test, y_test, batch_size = batch_size, n_epoch= N_EPOCH)
     
-    prediction = model.predict(X_test)
-    if output:
-        print 'Train Accuracy:', np.sum(prediction == y_train) / float(y_test.shape[0])
     prediction = model.predict(X_train)
     if output:
-        print 'Test  Accuracy:', np.sum(prediction == y_test) / float(y_train.shape[0])
+        print 'Train Accuracy:', np.sum(prediction == y_train) / float(y_train.shape[0])
+    
+    prediction = model.predict(X_test)
+    if output:
+        print 'Test  Accuracy:', np.sum(prediction == y_test) / float(y_test.shape[0])
     
     history = np.asarray(model.train_loss_history)
     plt.plot(history[1:, 0], 'b--', label='train_loss')
@@ -129,39 +130,35 @@ for batch_size in batch_size_list:
 ```
 
     Batch Size: 100
-    epoch 10, time 0.14s, train_loss 0.224, test_loss 0.257
-    Train Accuracy: 0.0
-    Test  Accuracy: 0.0
-
-
-    /home/dmitrii/anaconda2/lib/python2.7/site-packages/ipykernel/__main__.py:13: DeprecationWarning: elementwise == comparison failed; this will raise an error in the future.
-    /home/dmitrii/anaconda2/lib/python2.7/site-packages/ipykernel/__main__.py:16: DeprecationWarning: elementwise == comparison failed; this will raise an error in the future.
+    epoch 10, time 0.13s, train_loss 0.231, test_loss 0.259
+    Train Accuracy: 0.9967
+    Test  Accuracy: 0.993333333333
 
 
 
-![png](README_files/README_8_2.png)
+![png](README_files/README_8_1.png)
 
 
     -------------------
     Batch Size: 10
-    epoch 10, time 0.80s, train_loss 0.191, test_loss 0.232
-    Train Accuracy: 0.0
-    Test  Accuracy: 0.0
+    epoch 10, time 0.75s, train_loss 0.193, test_loss 0.225
+    Train Accuracy: 0.9954
+    Test  Accuracy: 0.993
 
 
 
-![png](README_files/README_8_4.png)
+![png](README_files/README_8_3.png)
 
 
     -------------------
     Batch Size: 1
-    epoch 10, time 6.90s, train_loss 0.358, test_loss 0.390
-    Train Accuracy: 0.0
-    Test  Accuracy: 0.0
+    epoch 10, time 6.79s, train_loss 0.358, test_loss 0.382
+    Train Accuracy: 0.9525
+    Test  Accuracy: 0.958333333333
 
 
 
-![png](README_files/README_8_6.png)
+![png](README_files/README_8_5.png)
 
 
     -------------------
@@ -169,12 +166,12 @@ for batch_size in batch_size_list:
 
 ## Evolution of statement
 
-O'kay. Seems like bathc_size = 100 - the best choice. Let's look at evolution of the model statement over train epoch. (On the train set)
+O'kay. Seems like ```bathc_size=100``` - the best choice. Let's look at evolution of the model statement over train epoch. (On the train set)
 
 
 ```python
-model = SVM(train_model_history = True)
-model.fit(X_train, y_train, X_test, y_test, batch_size = 100, n_epoch= 50)
+model = SVM(chronicle_model_history = True)
+model.fit(X_train, y_train, X_test, y_test, batch_size = 1000, n_epoch= 50)
 
 history_coef = np.asarray(model.train_model_history)
 
@@ -182,7 +179,7 @@ def plot_statement(ind):
     line_x = np.arange(np.min(X_train[:,0]), np.max(X_train[:,1]), 0.1)
     line_y = line_x * ( - history_coef[ind, 0] / history_coef[ind, 1]) - history_coef[ind, 2] / history_coef[ind, 1]
     # !!! Actually, this line formula (y = kx + b) doesn't work in case of --->
-    # ---> vertical line ( x = 0 for example). So, will trust that history_coef[ind,0] != 0
+    # ---> vertical line ( x = 0 for example). So, will trust that history_coef[ind,0]!=0
 
 
 
@@ -210,14 +207,7 @@ widgets.interact(plot_statement, ind=(0,len(model.train_model_history)-1,1))
 !ipython nbconvert --to markdown README.ipynb
 ```
 
-    [TerminalIPythonApp] WARNING | Subcommand `ipython nbconvert` is deprecated and will be removed in future versions.
-    [TerminalIPythonApp] WARNING | You likely want to use `jupyter nbconvert` in the future
-    [NbConvertApp] Converting notebook README.ipynb to markdown
-    [NbConvertApp] Support files will be in README_files/
-    [NbConvertApp] Making directory README_files
-    [NbConvertApp] Making directory README_files
-    [NbConvertApp] Making directory README_files
-    [NbConvertApp] Making directory README_files
-    [NbConvertApp] Making directory README_files
-    [NbConvertApp] Writing 10494 bytes to README.md
 
+```python
+
+```
